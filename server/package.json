@@ -1,0 +1,48 @@
+{
+    "name": "mid-project",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon src/app.ts",
+        "start": "node dist/app.js",
+        "check": "prettier . --check",
+        "fix": "prettier . --write",
+        "build": "tsc",
+        "migrate-mongo:init": "migrate-mongo init",
+        "migrate-mongo:up": "migrate-mongo up",
+        "migrate-mongo:down": "migrate-mongo down",
+        "migrate-mongo:status": "migrate-mongo status",
+        "migrate-mongo:create": "migrate-mongo create init-dogs",
+        "seed": "ts-node scripts/seedOrders.ts"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@faker-js/faker": "^9.4.0",
+        "axios": "^1.7.7",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "dotenv-expand": "^11.0.6",
+        "express": "^4.19.2",
+        "migrate-mongo": "^12.1.2",
+        "mongoose": "^8.7.2",
+        "nodemailer": "^6.9.16",
+        "path": "^0.12.7",
+        "redis": "^4.7.0"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/nodemailer": "^6.4.16",
+        "nodemon": "^3.1.9",
+        "prettier": "^3.3.3",
+        "ts-jest": "^29.2.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.5.4"
+    },
+    "peerDependencies": {
+        "express": "^4.19.2"
+    }
+}
