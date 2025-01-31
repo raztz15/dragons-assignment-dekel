@@ -1,5 +1,7 @@
+import { PORT } from "../utils/environment-variables";
+
 export class AppConfig {
-	static readonly port = process.env.PORT ?? 3000;
+	static readonly port = PORT ?? 3000;
 
 	static readonly apiUrl = {
 		health: '/health',

@@ -12,8 +12,7 @@
         "migrate-mongo:up": "migrate-mongo up",
         "migrate-mongo:down": "migrate-mongo down",
         "migrate-mongo:status": "migrate-mongo status",
-        "migrate-mongo:create": "migrate-mongo create init-dogs",
-        "seed": "ts-node scripts/seedOrders.ts"
+        "migrate-mongo:create": "migrate-mongo create init-dogs"
     },
     "author": "",
     "license": "ISC",
