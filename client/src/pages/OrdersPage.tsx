@@ -1,4 +1,4 @@
-import { Box, Container, Grid, IconButton, Paper, Typography } from '@mui/material'
+import { Box, Container, Grid, Paper, Typography } from '@mui/material'
 import { OrdersList } from '@src/components/OrdersList'
 import OrdersMap from '@src/components/OrdersMap'
 import { RtlToggle } from '@src/components/RtlToggle'
