@@ -1,10 +1,15 @@
 # 🍕 Pizza Order Management System
 
-Real-Time Order Management: Automatically fetches and updates orders with polling every 5 seconds.
-Dynamic Sorting: Sorting by order id, customer name, order time and total price and manage pagination.
-Order Status Updates: Track order statuses through various stages: Received, Preparing, Ready, EnRoute, and Delivered.
-Performance Optimized: Efficient handling of 300+ preloaded orders with optimized database queries and state management using Redux Toolkit.
-Interactive UI: Built with React, TypeScript, and Material UI for a responsive and user-friendly interface.
+### Real-Time Order Management: 
+Automatically fetches and updates orders with polling every 5 seconds.
+### Dynamic Sorting:
+Sorting by order id, customer name, order time and total price and manage pagination.
+### Order Status Updates:
+Track order statuses through various stages: Received, Preparing, Ready, EnRoute, and Delivered.
+### Performance Optimized:
+Efficient handling of 300+ preloaded orders with optimized database queries and state management using Redux Toolkit.
+### Interactive UI:
+Built with React, TypeScript, and Material UI for a responsive and user-friendly interface.
 
 - must download daemon to communicate with linux containers - [docker desktop](https://www.docker.com/products/docker-desktop)
 
