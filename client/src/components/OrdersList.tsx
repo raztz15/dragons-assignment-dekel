@@ -15,10 +15,6 @@ export const OrdersList = () => {
 
     useEffect(() => {
         dispatch(fetchOrdersAsync({ page: currentPage, sortBy }));
-    }, [])
-
-    useEffect(() => {
-
         const interval = setInterval(() => {
             dispatch(fetchOrdersAsync({ page: currentPage, sortBy }));
         }, 5000);
