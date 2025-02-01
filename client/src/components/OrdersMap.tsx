@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useSelector } from 'react-redux';
 import { RootState } from '@src/store';
-import { Box, CircularProgress, List, ListItem, Typography } from '@mui/material';
+import { Box, LinearProgress, List, ListItem, Typography } from '@mui/material';
 
 export default function OrdersMap() {
     const { orders } = useSelector((state: RootState) => state.orders)
@@ -16,7 +16,7 @@ export default function OrdersMap() {
     }, []);
 
     if (!mapReady) {
-        return <CircularProgress />;
+        return <LinearProgress />;
     }
 
     return (
