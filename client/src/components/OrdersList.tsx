@@ -10,6 +10,8 @@ export const OrdersList = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const { orders, loading, error, currentPage, totalPages } = useSelector((state: RootState) => state.orders)
+    const { direction } = useSelector((state: RootState) => state.directions);
+
 
     const [sortBy, setSortBy] = useState('_id');
 
@@ -28,7 +30,7 @@ export const OrdersList = () => {
 
     return (
         <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+            <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }} dir={direction} >
                 Active Orders
             </Typography>
 
@@ -62,6 +64,7 @@ export const OrdersList = () => {
                     </Box>
 
                     <Pagination
+                        dir={direction}
                         count={totalPages}
                         page={currentPage}
                         onChange={(_, page) => handlePaginationsPage(page)}

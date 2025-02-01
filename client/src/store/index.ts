@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { orderReducer } from './slices/order';
+import { directionsReducer } from './slices/direction';
 
 const rootReducer = combineReducers({
   orders: orderReducer,
+  directions: directionsReducer
 });
 
 export function createStore() {

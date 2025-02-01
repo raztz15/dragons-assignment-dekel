@@ -52,7 +52,7 @@ export const fetchOrdersAsync = createAsyncThunk(
     try {
       const state = getState() as RootState
 
-      const lastFetchedOrders = state.orders.orders
+      const lastFetchedOrders: IOrder[] = state.orders.orders
 
       const response = await fetchOrders(page, sortBy, sortOrder, customerName)
       const newOrders: IOrder[] = response.orders
