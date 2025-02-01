@@ -27,12 +27,11 @@ export const OrdersList = () => {
     }
 
     return (
-        <Paper sx={{ p: 2, height: "80vh", display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+        <Paper elevation={3} sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
                 Active Orders
             </Typography>
 
-            {/* Sorting Dropdown */}
             <Box sx={{ mb: 2 }}>
                 <SortFilter onSortChange={setSortBy} sortBy={sortBy} />
             </Box>
@@ -41,18 +40,18 @@ export const OrdersList = () => {
                 <LinearProgress />
             ) : error ? (
                 <Alert severity="error">{error}</Alert>
-            ) : !orders || orders.length === 0 ? (
+            ) : !orders.length ? (
                 <Typography>No active orders.</Typography>
             ) : (
                 <>
-                    <Paper
-                        variant="outlined"
+                    <Box
                         sx={{
                             flexGrow: 1,
-                            overflowY: "auto",
-                            maxHeight: "70vh",
+                            overflowY: 'auto',
+                            maxHeight: '60vh',
                             p: 1,
-                            borderRadius: "8px",
+                            borderRadius: '8px',
+                            border: '1px solid #e0e0e0',
                         }}
                     >
                         <List>
@@ -60,16 +59,17 @@ export const OrdersList = () => {
                                 <OrderItem key={order._id} {...order} />
                             ))}
                         </List>
-                    </Paper>
+                    </Box>
+
                     <Pagination
                         count={totalPages}
                         page={currentPage}
                         onChange={(_, page) => handlePaginationsPage(page)}
-                        sx={{ mt: 2, alignSelf: "center" }}
+                        sx={{ mt: 2, alignSelf: 'center' }}
+                        color="primary"
                     />
                 </>
             )}
         </Paper>
-
     )
 }
