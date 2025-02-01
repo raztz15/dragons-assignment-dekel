@@ -29,7 +29,7 @@ export const OrdersPage = () => {
                 </Grid>
 
                 {/* Orders List Section */}
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} dir={direction}>
                     <OrdersList />
                 </Grid>
             </Grid>
