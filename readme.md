@@ -6,16 +6,16 @@
 
 - must download pnpm to run the code
 
-sh
+```sh
     # Install pnpm global
     npm install -g pnpm
-
+```
 
 ### Installation + Running The Application
 
 1. Clone the repository to your local machine + run docker-compose:
 
-   sh
+   ```sh
    # clone the project
    git clone https://github.com/raztz15/dragons-assignment-dekel
 
@@ -30,11 +30,11 @@ sh
 
    # open vscode with the current project
    code .
-   
+   ```
 
 2. Inject initial data to mongo and run locally:
 
-   sh
+   ```sh
    # open terminal then go to server
    cd server
 
@@ -46,11 +46,11 @@ sh
 
    # run the server
    pnpm run dev
-   
+   ```
 
 3. run frontend app:
 
-   sh
+   ```sh
    # go back to client folder
    cd ../client
 
@@ -59,4 +59,4 @@ sh
 
    # run the client
    pnpm run dev
-   
+   ```
