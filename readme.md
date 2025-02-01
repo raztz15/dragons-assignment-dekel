@@ -52,7 +52,7 @@
 
    ```sh
    # go back to client folder
-   cd ../client
+   cd .././client
 
    # Install dependencies
    pnpm install
