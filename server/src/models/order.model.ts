@@ -1,7 +1,7 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
 export enum OrderStatus {
-	Recieved = "Recieved",
+	Received = "Received",
 	Preparing = "Preparing",
 	Ready = "Ready",
 	EnRoute = "EnRoute",
@@ -42,7 +42,7 @@ const orderSchema = new Schema<IOrderModel>(
 			lat: { type: Number, required: true },
 		},
 		orderTime: { type: Date, default: Date.now },
-		status: { type: String, enum: Object.values(OrderStatus), default: OrderStatus.Recieved },
+		status: { type: String, enum: Object.values(OrderStatus), default: OrderStatus.Received },
 		subItems: [subItemSchema],
 		customerName: { type: String },
 		totalPrice: { type: Number },

@@ -1,31 +1,31 @@
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useState } from 'react'
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 interface ISortFilterProps {
+    sortBy: string
     onSortChange: (sortBy: string) => void;
 }
 
-export const SortFilter = ({ onSortChange }: ISortFilterProps) => {
-    const [sortBy, setSortBy] = useState('_id');
+export const SortFilter = ({ sortBy, onSortChange }: ISortFilterProps) => {
 
     const handleSortChange = (e: SelectChangeEvent<string>) => {
         const { value } = e.target
-        setSortBy(value)
         onSortChange(value)
     }
 
     return (
-        <FormControl fullWidth>
-            <InputLabel>Sort By</InputLabel>
-            <Select
-                value={sortBy}
-                onChange={(e) => handleSortChange(e)}
-                label='Sort by'>
-                <MenuItem value='_id'>Order Id</MenuItem>
-                <MenuItem value='time'>Order Time</MenuItem>
-                <MenuItem value='status'>Status</MenuItem>
-                <MenuItem value='totalPrice'>Total Price</MenuItem>
-            </Select>
-        </FormControl>
+        <Box display='flex' flexDirection='column' gap={2}>
+            <FormControl fullWidth>
+                <InputLabel>Sort By</InputLabel>
+                <Select
+                    value={sortBy}
+                    onChange={(e) => handleSortChange(e)}
+                    label='Sort by'>
+                    <MenuItem value='_id'>Order Id</MenuItem>
+                    <MenuItem value='orderTime'>Order Time</MenuItem>
+                    <MenuItem value='customerName'>Customer Name</MenuItem>
+                    <MenuItem value='totalPrice'>Total Price</MenuItem>
+                </Select>
+            </FormControl>
+        </Box>
     )
 }

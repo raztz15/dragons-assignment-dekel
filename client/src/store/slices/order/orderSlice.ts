@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchOrders, updateOrderStatus } from '@src/api/orderApi';
 import { RootState } from '@src/store';
 
 export enum OrderStatus {
-  Recieved = "Recieved",
+  Received = "Received",
   Preparing = "Preparing",
   Ready = "Ready",
   EnRoute = "EnRoute",
@@ -24,24 +24,38 @@ export interface IOrder {
 
 interface IOrdersState {
   orders: IOrder[];
+  totalOrders: number;
+  totalPages: number;
+  currentPage: number;
+  sortBy: string;
+  sortOrder: string;
+  customerName: string;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: IOrdersState = {
   orders: [],
+  totalOrders: 0,
+  totalPages: 1,
+  currentPage: 1,
+  sortBy: '_id',
+  sortOrder: 'asc',
+  customerName: '',
   loading: false,
-  error: null,
+  error: null
 };
 
 export const fetchOrdersAsync = createAsyncThunk(
   'orders/fetchOrders',
-  async (_, { rejectWithValue, getState }) => {
+  async ({ page, sortBy = '_id', sortOrder = 'asc', customerName = '' }: { page: number, sortBy?: string, sortOrder?: string, customerName?: string }, { rejectWithValue, getState }) => {
     try {
       const state = getState() as RootState
+
       const lastFetchedOrders = state.orders.orders
 
-      const newOrders: IOrder[] = await fetchOrders()
+      const response = await fetchOrders(page, sortBy, sortOrder, customerName)
+      const newOrders: IOrder[] = response.orders
 
       const isDifferent = newOrders.some(
         (newOrder) =>
@@ -49,7 +63,8 @@ export const fetchOrdersAsync = createAsyncThunk(
             oldOrder => oldOrder._id === newOrder._id && oldOrder.lastUpdated === newOrder.lastUpdated
           )
       )
-      return isDifferent ? newOrders : lastFetchedOrders
+
+      return isDifferent ? response : lastFetchedOrders
     } catch (error: unknown) {
       return rejectWithValue((error as { message: string }).message || "Failed to fetch orders")
     }
@@ -67,7 +82,17 @@ export const updateOrderStatusAsync = createAsyncThunk("orders/updateOrderStatus
 const ordersSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload
+    },
+    sortOrders: (state, action) => {
+      state.sortBy = action.payload.sortBy
+      state.sortOrder = action.payload.sortOrder
+      state.orders = []
+      state.currentPage = 1
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrdersAsync.pending, (state) => {
@@ -76,13 +101,18 @@ const ordersSlice = createSlice({
         }
         state.error = null;
       })
-      .addCase(fetchOrdersAsync.fulfilled, (state, action: PayloadAction<IOrder[]>) => {
-        state.orders = action.payload;
+      .addCase(fetchOrdersAsync.fulfilled, (state, action) => {
+        state.orders = action.payload.orders;
+        state.totalOrders = action.payload.totalOrders
+        state.totalPages = action.payload.totalPages
         state.loading = false;
       })
       .addCase(fetchOrdersAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(updateOrderStatusAsync.pending, (state) => {
+        state.error = null
       })
       .addCase(updateOrderStatusAsync.rejected, (state, action) => {
         state.error = action.payload as string;
@@ -95,4 +125,5 @@ const ordersSlice = createSlice({
   },
 });
 
+export const { setPage, sortOrders } = ordersSlice.actions
 export const orderReducer = ordersSlice.reducer;

@@ -1,46 +1,34 @@
-import { Alert, Box, LinearProgress, List, Paper, Typography } from '@mui/material'
+import { Alert, Box, LinearProgress, List, Pagination, Paper, Typography } from '@mui/material'
 import { OrderItem } from './OrderItem'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@src/store';
-import { useEffect, useMemo, useState } from 'react';
-import { fetchOrdersAsync } from '@src/store/slices/order/orderSlice';
+import { useEffect, useState } from 'react';
+import { fetchOrdersAsync, setPage } from '@src/store/slices/order/orderSlice';
 import { SortFilter } from './SortFilter';
 
 export const OrdersList = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { orders, loading, error } = useSelector((state: RootState) => state.orders)
+    const { orders, loading, error, currentPage, totalPages } = useSelector((state: RootState) => state.orders)
 
     const [sortBy, setSortBy] = useState('_id');
 
     useEffect(() => {
-        dispatch(fetchOrdersAsync())
-        const interval = setInterval(() => dispatch(fetchOrdersAsync()), 5000)
-        return () => clearInterval(interval)
-    }, [dispatch])
+        dispatch(fetchOrdersAsync({ page: currentPage, sortBy }));
+    }, [])
 
-    const activeOrders = orders.filter(order => order.status !== 'Delivered')
+    useEffect(() => {
 
-    const sortedOrders = useMemo(() => {
-        return [...activeOrders].sort((a, b) => {
-            switch (sortBy) {
-                case '_id':
-                    return a._id.localeCompare(b._id)
-                case 'time':
-                    return new Date(a.orderTime).getTime() - new Date(b.orderTime).getTime();
-                case 'status':
-                    return a.status.localeCompare(b.status)
-                case 'totalPrice':
-                    if (a.totalPrice && b.totalPrice) {
-                        return a.totalPrice - b.totalPrice
-                    }
-                    return 0
-                default:
-                    return 0
-            }
-        });
-    }, [activeOrders, sortBy]);
+        const interval = setInterval(() => {
+            dispatch(fetchOrdersAsync({ page: currentPage, sortBy }));
+        }, 5000);
 
+        return () => clearInterval(interval);
+    }, [currentPage, sortBy])
+
+    const handlePaginationsPage = (page: number) => {
+        dispatch(setPage(page))
+    }
 
     return (
         <Paper sx={{ p: 2, height: "80vh", display: "flex", flexDirection: "column" }}>
@@ -50,32 +38,40 @@ export const OrdersList = () => {
 
             {/* Sorting Dropdown */}
             <Box sx={{ mb: 2 }}>
-                <SortFilter onSortChange={setSortBy} />
+                <SortFilter onSortChange={setSortBy} sortBy={sortBy} />
             </Box>
 
-            {loading && orders.length === 0 ? (
+            {loading ? (
                 <LinearProgress />
             ) : error ? (
                 <Alert severity="error">{error}</Alert>
-            ) : activeOrders.length === 0 ? (
+            ) : !orders || orders.length === 0 ? (
                 <Typography>No active orders.</Typography>
             ) : (
-                <Paper
-                    variant="outlined"
-                    sx={{
-                        flexGrow: 1,
-                        overflowY: "auto",
-                        maxHeight: "70vh",
-                        p: 1,
-                        borderRadius: "8px",
-                    }}
-                >
-                    <List>
-                        {sortedOrders.map((order) => (
-                            <OrderItem key={order._id} {...order} />
-                        ))}
-                    </List>
-                </Paper>
+                <>
+                    <Paper
+                        variant="outlined"
+                        sx={{
+                            flexGrow: 1,
+                            overflowY: "auto",
+                            maxHeight: "70vh",
+                            p: 1,
+                            borderRadius: "8px",
+                        }}
+                    >
+                        <List>
+                            {orders.map((order) => (
+                                <OrderItem key={order._id} {...order} />
+                            ))}
+                        </List>
+                    </Paper>
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={(_, page) => handlePaginationsPage(page)}
+                        sx={{ mt: 2, alignSelf: "center" }}
+                    />
+                </>
             )}
         </Paper>
 

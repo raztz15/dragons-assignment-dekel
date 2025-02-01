@@ -9,7 +9,7 @@ module.exports = {
                 title: `Order #${i + 1}`,
                 orderLocation: { lat: faker.location.latitude(), lng: faker.location.latitude() },
                 orderTime: faker.date.recent(),
-                status: faker.helpers.arrayElement(["Recieved", "Preparing", "Ready", "EnRoute", "Delivered"]),
+                status: faker.helpers.arrayElement(["Received", "Preparing", "Ready", "EnRoute", "Delivered"]),
                 subItems: [
                     {
                         title: faker.commerce.productName(),

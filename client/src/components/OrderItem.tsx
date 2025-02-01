@@ -61,11 +61,11 @@ export const OrderItem = ({ _id, orderLocation, orderTime, status, subItems, tit
                     size="small"
                     sx={{ minWidth: "180px" }}
                 >
-                    <MenuItem value="Recieved">Recieved</MenuItem>
-                    <MenuItem value="Preparing">Preparing</MenuItem>
-                    <MenuItem value="Ready">Ready</MenuItem>
-                    <MenuItem value="EnRoute">EnRoute</MenuItem>
-                    <MenuItem value="Delivered">Delivered</MenuItem>
+                    <MenuItem value={OrderStatus.Received}>{OrderStatus.Received}</MenuItem>
+                    <MenuItem value={OrderStatus.Preparing}>{OrderStatus.Preparing}</MenuItem>
+                    <MenuItem value={OrderStatus.Ready}>{OrderStatus.Ready}</MenuItem>
+                    <MenuItem value={OrderStatus.EnRoute}>{OrderStatus.EnRoute}</MenuItem>
+                    <MenuItem value={OrderStatus.Delivered}>{OrderStatus.Delivered}</MenuItem>
                 </Select>
                 <Button
                     variant="contained"

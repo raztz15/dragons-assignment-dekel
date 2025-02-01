@@ -1,12 +1,39 @@
 import { Request, Response } from "express";
-import { OrderModel } from "../models/order.model";
+import { OrderModel, OrderStatus } from "../models/order.model";
 
 // Get all orders
-export const getOrders = async (_: Request, res: Response) => {
-
+export const getOrders = async (req: Request, res: Response) => {
     try {
-        const orders = await OrderModel.find().select("-__v");
-        res.status(200).json(orders)
+        const page = parseInt(req.query.page as string) || 1
+        const limit = parseInt(req.query.limit as string) || 50
+        const skip = (page - 1) * limit
+
+        const sortBy = req.query.sortBy as string || '_id'
+        const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1
+        const customerName = req.query.customerName as string || '';
+
+        let filter: any = {}
+
+        if (customerName) {
+            filter.customerName = { $regex: customerName, $options: 'i' }
+        }
+
+        filter.status = { $ne: 'Delivered' };
+
+        const orders = await OrderModel.find(filter)
+            .sort({ [sortBy]: sortOrder })
+            .skip(skip)
+            .limit(limit)
+            .select("-__v");
+
+        const totalOrders = await OrderModel.countDocuments(filter)
+
+        res.status(200).json({
+            orders,
+            totalOrders,
+            totalPages: Math.ceil(totalOrders / limit),
+            currentPage: page
+        })
     } catch (error) {
         res.status(500).json({ message: "Error fetching orders", error })
     }
